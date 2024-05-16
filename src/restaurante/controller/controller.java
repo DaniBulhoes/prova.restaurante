@@ -6,11 +6,11 @@ import java.util.Optional;
 
 
 @RestController
-@RequestMapping("/restaurante")
+@RequestMapping("/Restaurante Sem Tloca")
 public class PedidoController {
 
     @Autowired
-    private Pedidoervice service;
+    private PedidoService service;
 
     @GetMapping
     public ResponseEntity<List<PedidoDTO>> buscarTodos() {
@@ -25,7 +25,7 @@ public class PedidoController {
     }
 
     @GetMapping("/pedido")
-    public ResponseEntity<List<PedidoDTO>> buscarPorNome(@RequestParam String pedido) {
+    public ResponseEntity<List<PedidoDTO>> buscarPorPedido(@RequestParam String pedido) {
         List<PedidoDTO> pedidos = service.buscarPorPedido(pedido);
         return ResponseEntity.ok(pedidos);
     }
@@ -38,19 +38,19 @@ public class PedidoController {
 
     @PostMapping("/prato")
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<ProdutoDTO> cadastrar(@Valid @RequestBody PedidoDTO prato) {
+    public ResponseEntity<PedidoDTO> cadastrar(@Valid @RequestBody PedidoDTO prato) {
         PedidoDTO novoPrato = service.cadastrar(prato);
         return ResponseEntity.ok(novoPrato);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<PedidoDTO> alterarProduto(@PathVariable Long id, @Valid @RequestBody PedidoDTO produtoAlterado) {
-        Optional<ProdutoDTO> produtoAtualizado = service.alterar(id, produtoAlterado);
-        return produtoAtualizado.map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
+    public ResponseEntity<PedidoDTO> alterarPedido(@PathVariable Long id, @Valid @RequestBody PedidoDTO pedidoAlterado) {
+        Optional<PedidoTO> pedidoAtualizado = service.alterar(id, pedidoAlterado);
+        return pedidoAtualizado.map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deletarProduto(@PathVariable Long id) {
+    public ResponseEntity<Void> deletarPedido(@PathVariable Long id) {
         if (!service.deletar(id)) {
             return ResponseEntity.notFound().build();
         }
